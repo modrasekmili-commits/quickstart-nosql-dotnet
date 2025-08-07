@@ -18,8 +18,9 @@ builder.Services.AddSingleton<CosmosClient>((serviceProvider) =>
     IOptions<Settings.Configuration> configurationOptions = serviceProvider.GetRequiredService<IOptions<Settings.Configuration>>();
     Settings.Configuration configuration = configurationOptions.Value;
 
+    var connectionString = Environment.GetEnvironmentVariable("COSMOS_CONN_STR");
     CosmosClient client = new(
-        connectionString: "<azure-cosmos-db-nosql-connection-string>"
+        connectionString: connectionString
     );
     return client;
 });
