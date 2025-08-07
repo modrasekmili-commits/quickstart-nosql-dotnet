@@ -1,0 +1,29 @@
+name: Run Cosmos DB App
+
+on:
+  workflow_dispatch:  # Spustíš ručně z GitHub UI
+
+jobs:
+  run-app:
+    runs-on: ubuntu-latest
+
+    env:
+      COSMOS_CONNECTION_STRING: ${{ secrets.COSMOS_CONNECTION_STRING }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '8.0.x'  # nebo verzi, kterou používáš
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build project
+        run: dotnet build --no-restore
+
+      - name: Run application
+        run: dotnet run --project ./web  # nebo cesta ke tvému projektu
